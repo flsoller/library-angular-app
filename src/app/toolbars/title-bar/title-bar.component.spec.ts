@@ -8,9 +8,8 @@ describe('TitleBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TitleBarComponent ]
-    })
-    .compileComponents();
+      declarations: [TitleBarComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('TitleBarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Title variable should be `Books`', () => {
+    expect(component.appTitle).toBe('Books');
   });
 });

@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-title-bar',
   templateUrl: './title-bar.component.html',
-  styleUrls: ['./title-bar.component.css']
+  // styleUrls: ['./title-bar.component.css'],
 })
-export class TitleBarComponent implements OnInit {
+export class TitleBarComponent {
+  constructor() {}
 
-  constructor() { }
+  appTitle = 'Books';
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
