@@ -1,7 +1,7 @@
 <div
-  class="sticky top-0 flex justify-start bg-indigo-500 h-16 items-center shadow-md"
+  class="sticky top-0 flex flex-row justify-between bg-indigo-500 h-16 items-center shadow-md text-blue-50 text-xs font-extrabold"
 >
-  <div class="ml-3 text-blue-50 text-xs font-extrabold">
+  <div class="ml-3">
     <button
       type="button"
       class="border uppercase mr-1 sm:mr-4 bg-indigo-500 font-bold rounded-md px-1 sm:px-4 py-2 transition duration-200 ease select-none hover:bg-indigo-400 focus:outline-none focus:shadow-outline"
@@ -27,4 +27,11 @@
       loaned out
     </button>
   </div>
+  <button
+    type="button"
+    class="border uppercase mr-1 sm:mr-4 bg-indigo-500 font-bold rounded-md px-1 sm:px-4 py-2 transition duration-200 ease select-none hover:bg-indigo-400 focus:outline-none focus:shadow-outline"
+    (click)="requestOpenModal()"
+  >
+    add book
+  </button>
 </div>
