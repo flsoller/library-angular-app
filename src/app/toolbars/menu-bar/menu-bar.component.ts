@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-menu-bar',
   templateUrl: './menu-bar.component.html',
-  styleUrls: ['./menu-bar.component.css']
+  styleUrls: ['./menu-bar.component.css'],
 })
-export class MenuBarComponent implements OnInit {
+export class MenuBarComponent {
+  @Output() openModalRequest = new EventEmitter<boolean>();
 
-  constructor() { }
+  modalOpenStatus = false;
 
-  ngOnInit(): void {
+  constructor() {}
+
+  requestOpenModal() {
+    this.modalOpenStatus = !this.modalOpenStatus;
+    this.openModalRequest.emit(this.modalOpenStatus);
   }
-
 }
