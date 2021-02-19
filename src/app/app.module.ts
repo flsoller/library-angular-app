@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { TitleBarComponent } from './toolbars/title-bar/title-bar.component';
@@ -13,12 +14,10 @@ import { BookModalComponent } from './books/book-modal/book-modal.component';
     TitleBarComponent,
     MenuBarComponent,
     BookCardComponent,
-    BookModalComponent
+    BookModalComponent,
   ],
-  imports: [
-    BrowserModule
-  ],
+  imports: [BrowserModule, FormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
