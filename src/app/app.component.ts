@@ -18,4 +18,8 @@ export class AppComponent {
   displayModal(status: boolean) {
     this.showModal = status;
   }
+
+  addToLibrary(newBook: Book) {
+    this.books.push(newBook);
+  }
 }
