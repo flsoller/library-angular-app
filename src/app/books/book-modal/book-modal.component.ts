@@ -1,10 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { BooksService } from 'src/app/shared/books.service';
 import { Book } from '../book.model';
 
 @Component({
@@ -20,9 +15,7 @@ export class BookModalComponent {
   @ViewChild('isReading') isReadingInputRef: ElementRef;
   @ViewChild('isLoaned') isLoanedInputRef: ElementRef;
 
-  @Output() addBook = new EventEmitter<Book>();
-
-  constructor() {}
+  constructor(private booksService: BooksService) {}
 
   onAddBook() {
     const titleInput = this.titleInputRef.nativeElement.value;
@@ -32,7 +25,7 @@ export class BookModalComponent {
     const isReadingInput = this.isReadingInputRef.nativeElement.value;
     const isLoanedInput = this.isLoanedInputRef.nativeElement.value;
 
-    const newBook = new Book(
+    const book = new Book(
       titleInput,
       authorInput,
       pagesInput,
@@ -40,6 +33,7 @@ export class BookModalComponent {
       isLoanedInput,
       isReadingInput
     );
-    this.addBook.emit(newBook);
+
+    this.booksService.addBook(book);
   }
 }
