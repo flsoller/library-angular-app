@@ -1,5 +1,7 @@
+import { Injectable } from '@angular/core';
 import { Book } from '../books/book.model';
 
+@Injectable({ providedIn: 'root' })
 export class BooksService {
   books: Book[] = [
     new Book('Some Title 1', 'Some Author 1', 100, true, false, false),

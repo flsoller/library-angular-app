@@ -6,7 +6,6 @@ import { BooksService } from './shared/books.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [BooksService],
 })
 export class AppComponent implements OnInit {
   books: Book[] = [];
