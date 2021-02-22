@@ -1,25 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Book } from './books/book.model';
+import { BooksService } from './shared/books.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  providers: [BooksService],
 })
-export class AppComponent {
-  showModal = false;
+export class AppComponent implements OnInit {
+  books: Book[] = [];
 
-  books: Book[] = [
-    new Book('Some Title 1', 'Some Author 1', 100, true, false, false),
-    new Book('Some Title 2', 'Some Author 2', 200, false, true, false),
-    new Book('Some Title 3', 'Some Author 3', 300, false, false, true),
-  ];
+  constructor(private booksService: BooksService) {}
 
-  displayModal(status: boolean) {
-    this.showModal = status;
+  ngOnInit() {
+    this.books = this.booksService.books;
   }
 
-  addToLibrary(newBook: Book) {
-    this.books.push(newBook);
+  showModal = false;
+  displayModal(status: boolean) {
+    this.showModal = status;
   }
 }
