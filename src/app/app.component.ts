@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   constructor(private booksService: BooksService) {}
 
   ngOnInit() {
-    this.books = this.booksService.books;
+    this.books = this.booksService.getBooks();
   }
 
   showModal = false;
