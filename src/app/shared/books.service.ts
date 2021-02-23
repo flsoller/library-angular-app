@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Book } from '../books/book.model';
 
 @Injectable({ providedIn: 'root' })
 export class BooksService {
+  libraryChanged = new EventEmitter<Book[]>();
+
   private books: Book[] = [
     new Book('Some Title 1', 'Some Author 1', 100, true, false, false),
     new Book('Some Title 2', 'Some Author 2', 200, false, true, false),
@@ -15,5 +17,6 @@ export class BooksService {
 
   addBook(newBook: Book) {
     this.books.push(newBook);
+    this.libraryChanged.emit([...this.books]);
   }
 }

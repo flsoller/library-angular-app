@@ -14,6 +14,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.books = this.booksService.getBooks();
+    this.booksService.libraryChanged.subscribe((books: Book[]) => {
+      this.books = books;
+    });
   }
 
   showModal = false;
