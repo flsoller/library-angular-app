@@ -26,4 +26,10 @@ describe('BooksService', () => {
     expect(service.getBooks().length).toBe(4);
     expect(service.getBooks()[3].author).toBe('Some Author 4');
   });
+
+  it('Removes book from library', () => {
+    service.removeBook('Some Title 1');
+    expect(service.getBooks().length).toBe(2);
+    expect(service.getBooks()[0].title).not.toBe('Some Title 1');
+  });
 });
