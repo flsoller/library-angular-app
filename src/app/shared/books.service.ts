@@ -19,4 +19,11 @@ export class BooksService {
     this.books.push(newBook);
     this.libraryChanged.emit([...this.books]);
   }
+
+  removeBook(title: string) {
+    this.books = this.books.filter((book) => {
+      return book.title === title ? null : book;
+    });
+    this.libraryChanged.emit([...this.books]);
+  }
 }
