@@ -30,4 +30,10 @@ describe('BookCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call onDelteBook', () => {
+    spyOn(component, 'onDeleteBook');
+    component.onDeleteBook(component.book.title);
+    expect(component.onDeleteBook).toHaveBeenCalledWith(component.book.title);
+  });
 });
