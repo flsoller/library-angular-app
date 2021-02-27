@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+
+import { BooksService } from 'src/app/shared/books.service';
 import { Book } from '../book.model';
 
 @Component({
@@ -9,5 +11,9 @@ import { Book } from '../book.model';
 export class BookCardComponent {
   @Input() book: Book;
 
-  constructor() {}
+  constructor(private booksService: BooksService) {}
+
+  onDeleteBook(title: string) {
+    this.booksService.removeBook(title);
+  }
 }
