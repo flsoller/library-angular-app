@@ -1,6 +1,8 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { BooksService } from 'src/app/shared/books.service';
+import { Book } from '../book.model';
 
 import { BookModalComponent } from './book-modal.component';
 
@@ -8,12 +10,15 @@ describe('BookModalComponent', () => {
   let component: BookModalComponent;
   let fixture: ComponentFixture<BookModalComponent>;
   let debugEl: DebugElement;
-  let service: BooksService;
+
+  const booksServiceMock = {
+    addBook: jest.fn().mockImplementation(() => of({})),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BookModalComponent],
-      providers: [BooksService],
+      providers: [{ provide: BooksService, useValue: booksServiceMock }],
     }).compileComponents();
   });
 
@@ -34,9 +39,20 @@ describe('BookModalComponent', () => {
     expect(component.onAddBook).toHaveBeenCalled();
   });
 
-  // it('should call books service addBook method', () => {
-  //   spyOn(service, 'addBook').and.callThrough();
-  //   component.onAddBook();
-  //   expect(service.addBook).toHaveBeenCalled();
-  // });
+  it('should call books service addBook method', () => {
+    const serviceSpy = jest.spyOn(booksServiceMock, 'addBook');
+    const book = new Book(
+      (component.titleInputRef.nativeElement.value = 'Title'),
+      (component.authorInputRef.nativeElement.value = 'Author'),
+      (component.pagesInputRef.nativeElement.value = 100),
+      (component.isFavInputRef.nativeElement.checked = true),
+      (component.isLoanedInputRef.nativeElement.checked = false),
+      (component.isReadingInputRef.nativeElement.checked = true)
+    );
+
+    component.onAddBook();
+
+    expect(serviceSpy).toHaveBeenCalledTimes(1);
+    expect(serviceSpy).toHaveBeenCalledWith(book);
+  });
 });
