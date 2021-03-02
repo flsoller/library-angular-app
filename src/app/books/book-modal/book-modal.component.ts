@@ -20,10 +20,10 @@ export class BookModalComponent {
   onAddBook() {
     const titleInput = this.titleInputRef.nativeElement.value;
     const authorInput = this.authorInputRef.nativeElement.value;
-    const pagesInput = this.pagesInputRef.nativeElement.value;
-    const isFavInput = this.isFavInputRef.nativeElement.value;
-    const isReadingInput = this.isReadingInputRef.nativeElement.value;
-    const isLoanedInput = this.isLoanedInputRef.nativeElement.value;
+    const pagesInput = parseInt(this.pagesInputRef.nativeElement.value);
+    const isFavInput = this.isFavInputRef.nativeElement.checked;
+    const isReadingInput = this.isReadingInputRef.nativeElement.checked;
+    const isLoanedInput = this.isLoanedInputRef.nativeElement.checked;
 
     const book = new Book(
       titleInput,
