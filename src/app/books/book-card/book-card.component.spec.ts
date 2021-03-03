@@ -1,15 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Book } from '../book.model';
+import { of } from 'rxjs';
 
+import { Book } from '../book.model';
 import { BookCardComponent } from './book-card.component';
+import { BooksService } from 'src/app/shared/books.service';
 
 describe('BookCardComponent', () => {
   let component: BookCardComponent;
   let fixture: ComponentFixture<BookCardComponent>;
 
+  const booksServiceMock = {
+    removeBook: jest.fn().mockImplementation(() => of({})),
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BookCardComponent],
+      providers: [{ provide: BooksService, useValue: booksServiceMock }],
     }).compileComponents();
   });
 
@@ -35,5 +42,12 @@ describe('BookCardComponent', () => {
     spyOn(component, 'onDeleteBook');
     component.onDeleteBook(component.book.title);
     expect(component.onDeleteBook).toHaveBeenCalledWith(component.book.title);
+  });
+
+  it('should call booksService delete method', () => {
+    const serviceSpy = jest.spyOn(booksServiceMock, 'removeBook');
+    component.onDeleteBook(component.book.title);
+    expect(serviceSpy).toHaveBeenCalledTimes(1);
+    expect(serviceSpy).toHaveBeenCalledWith(component.book.title);
   });
 });
