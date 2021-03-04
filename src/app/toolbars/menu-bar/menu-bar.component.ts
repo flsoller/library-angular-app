@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { ModalService } from 'src/app/shared/modal.service';
 
 @Component({
   selector: 'app-menu-bar',
@@ -6,14 +7,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./menu-bar.component.css'],
 })
 export class MenuBarComponent {
-  @Output() openModalRequest = new EventEmitter<boolean>();
+  constructor(private modalService: ModalService) {}
 
-  modalOpenStatus = false;
-
-  constructor() {}
-
-  requestOpenModal() {
-    this.modalOpenStatus = !this.modalOpenStatus;
-    this.openModalRequest.emit(this.modalOpenStatus);
+  onModalOpen() {
+    this.modalService.toggleModal();
   }
 }
