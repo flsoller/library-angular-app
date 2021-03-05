@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { BooksService } from 'src/app/shared/books.service';
+import { ModalService } from 'src/app/shared/modal.service';
 import { Book } from '../book.model';
 
 import { BookModalComponent } from './book-modal.component';
@@ -15,10 +16,17 @@ describe('BookModalComponent', () => {
     addBook: jest.fn().mockImplementation(() => of({})),
   };
 
+  const modalServiceMock = {
+    toggleModal: jest.fn().mockImplementation(() => of({})),
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BookModalComponent],
-      providers: [{ provide: BooksService, useValue: booksServiceMock }],
+      providers: [
+        { provide: BooksService, useValue: booksServiceMock },
+        { provide: ModalService, useValue: modalServiceMock },
+      ],
     }).compileComponents();
   });
 
@@ -27,6 +35,10 @@ describe('BookModalComponent', () => {
     component = fixture.componentInstance;
     debugEl = fixture.debugElement;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should create', () => {
@@ -39,8 +51,9 @@ describe('BookModalComponent', () => {
     expect(component.onAddBook).toHaveBeenCalled();
   });
 
-  it('should call books service addBook method', () => {
-    const serviceSpy = jest.spyOn(booksServiceMock, 'addBook');
+  it('should call books service addBook method and toggle modal', () => {
+    const bookServiceSpy = jest.spyOn(booksServiceMock, 'addBook');
+    const modalServiceSpy = jest.spyOn(modalServiceMock, 'toggleModal');
     const book = new Book(
       (component.titleInputRef.nativeElement.value = 'Title'),
       (component.authorInputRef.nativeElement.value = 'Author'),
@@ -52,7 +65,14 @@ describe('BookModalComponent', () => {
 
     component.onAddBook();
 
-    expect(serviceSpy).toHaveBeenCalledTimes(1);
-    expect(serviceSpy).toHaveBeenCalledWith(book);
+    expect(bookServiceSpy).toHaveBeenCalledTimes(1);
+    expect(bookServiceSpy).toHaveBeenCalledWith(book);
+    expect(modalServiceSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call modal service toggle method on cancel', () => {
+    const modalServiceSpy = jest.spyOn(modalServiceMock, 'toggleModal');
+    component.onCancel();
+    expect(modalServiceSpy).toHaveBeenCalledTimes(1);
   });
 });
