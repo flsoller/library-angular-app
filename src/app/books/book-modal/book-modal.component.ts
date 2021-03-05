@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { BooksService } from 'src/app/shared/books.service';
+import { ModalService } from 'src/app/shared/modal.service';
 import { Book } from '../book.model';
 
 @Component({
@@ -15,7 +16,10 @@ export class BookModalComponent {
   @ViewChild('isReading') isReadingInputRef: ElementRef;
   @ViewChild('isLoaned') isLoanedInputRef: ElementRef;
 
-  constructor(private booksService: BooksService) {}
+  constructor(
+    private booksService: BooksService,
+    private modalService: ModalService
+  ) {}
 
   onAddBook() {
     const titleInput = this.titleInputRef.nativeElement.value;
@@ -35,5 +39,10 @@ export class BookModalComponent {
     );
 
     this.booksService.addBook(book);
+    this.modalService.toggleModal();
+  }
+
+  onCancel() {
+    this.modalService.toggleModal();
   }
 }
