@@ -1,11 +1,14 @@
 import { BooksService } from './books.service';
 import { Book } from '../books/book.model';
+import { FilterService } from './filter.service';
 
 describe('BooksService', () => {
   let service: BooksService;
+  let filter: FilterService;
 
   beforeEach(() => {
-    service = new BooksService();
+    filter = new FilterService();
+    service = new BooksService(filter);
   });
 
   it('Returns array of books', () => {
