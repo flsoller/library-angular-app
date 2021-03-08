@@ -36,4 +36,9 @@ export class BooksService {
     this.filteredBooks = this.filterService.viewIsReading(this.books);
     this.libraryChanged.emit([...this.filteredBooks]);
   }
+
+  getIsLoaned() {
+    this.filteredBooks = this.filterService.viewLoaned(this.books);
+    this.libraryChanged.emit([...this.filteredBooks]);
+  }
 }
