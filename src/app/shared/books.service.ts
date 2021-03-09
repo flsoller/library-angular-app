@@ -41,4 +41,9 @@ export class BooksService {
     this.filteredBooks = this.filterService.viewLoaned(this.books);
     this.libraryChanged.emit([...this.filteredBooks]);
   }
+
+  getIsFav() {
+    this.filteredBooks = this.filterService.viewFavourite(this.books);
+    this.libraryChanged.emit([...this.filteredBooks]);
+  }
 }
