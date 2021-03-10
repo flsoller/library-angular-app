@@ -17,7 +17,19 @@ export class MenuBarComponent {
     this.modalService.toggleModal();
   }
 
+  onGetAll() {
+    this.booksService.getAll();
+  }
+
   onGetIsReading() {
     this.booksService.getIsReading();
+  }
+
+  onGetIsFav() {
+    this.booksService.getIsFav();
+  }
+
+  onGetIsLoaned() {
+    this.booksService.getIsLoaned();
   }
 }

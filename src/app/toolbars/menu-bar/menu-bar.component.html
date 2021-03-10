@@ -5,6 +5,7 @@
     <button
       type="button"
       class="border uppercase mr-1 sm:mr-4 bg-indigo-500 font-bold rounded-md px-1 sm:px-4 py-2 transition duration-200 ease select-none hover:bg-indigo-400 focus:outline-none focus:shadow-outline"
+      (click)="onGetAll()"
     >
       all
     </button>
@@ -18,12 +19,14 @@
     <button
       type="button"
       class="border uppercase mr-1 sm:mr-4 bg-indigo-500 font-bold rounded-md px-1 sm:px-4 py-2 transition duration-200 ease select-none hover:bg-indigo-400 focus:outline-none focus:shadow-outline"
+      (click)="onGetIsFav()"
     >
       favourites
     </button>
     <button
       type="button"
       class="border uppercase mr-1 sm:mr-4 bg-indigo-500 font-bold rounded-md px-1 sm:px-4 py-2 transition duration-200 ease select-none hover:bg-indigo-400 focus:outline-none focus:shadow-outline"
+      (click)="onGetIsLoaned()"
     >
       loaned out
     </button>
