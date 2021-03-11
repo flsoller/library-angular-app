@@ -1,6 +1,6 @@
 <div class="absolute w-screen h-4/5 flex justify-center">
   <div class="rounded-lg w-80 h-96 shadow-2xl mx-auto mt-6">
-    <form>
+    <form [formGroup]="bookForm" (ngSubmit)="onAddBook()">
       <div class="px-4 py-5 bg-white sm:p-6">
         <div class="grid grid-cols-6 gap-3">
           <div class="col-span-6">
@@ -9,13 +9,20 @@
                 >Title</label
               >
               <input
-                #title
                 type="text"
                 name="title"
                 id="title"
                 autocomplete="off"
+                formControlName="title"
                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
               />
+              <span
+                *ngIf="
+                  !bookForm.get('title').valid && bookForm.get('title').touched
+                "
+                >Please enter a title.</span
+              >
             </div>
 
             <div class="col-span-6">
@@ -25,11 +32,11 @@
                 >Author</label
               >
               <input
-                #author
                 type="text"
                 name="author"
                 id="author"
                 autocomplete="off"
+                formControlName="author"
                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
               />
             </div>
@@ -38,13 +45,20 @@
                 >Pages</label
               >
               <input
-                #pages
                 type="number"
                 name="pages"
                 id="pages"
                 autocomplete="off"
+                formControlName="pages"
                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
               />
+              <span
+                *ngIf="
+                  !bookForm.get('pages').valid && bookForm.get('pages').touched
+                "
+                >Please enter the number of pages</span
+              >
             </div>
           </div>
         </div>
@@ -53,10 +67,10 @@
             >Favourite</label
           >
           <input
-            #isFav
             type="checkbox"
             name="favourite"
             id="isFav"
+            formControlName="isFav"
             class="appearance-none checked:bg-indigo-300 checked:border-transparent"
           />
         </div>
@@ -65,10 +79,10 @@
             >Currently Reading</label
           >
           <input
-            #isReading
             type="checkbox"
             name="currently reading"
             id="isReading"
+            formControlName="isReading"
             class="appearance-none checked:bg-indigo-300 checked:border-transparent"
           />
         </div>
@@ -77,10 +91,10 @@
             >Loaned Out</label
           >
           <input
-            #isLoaned
             type="checkbox"
             name="loanedOut"
             id="isLoaned"
+            formControlName="isLoaned"
             class="appearance-none checked:bg-indigo-300 checked:border-transparent"
           />
         </div>
@@ -95,7 +109,6 @@
           <button
             type="submit"
             class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            (click)="onAddBook()"
           >
             Save
           </button>

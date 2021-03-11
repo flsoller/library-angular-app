@@ -1,4 +1,6 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { BooksService } from 'src/app/shared/books.service';
 import { ModalService } from 'src/app/shared/modal.service';
 import { Book } from '../book.model';
@@ -9,37 +11,37 @@ import { Book } from '../book.model';
   styleUrls: ['./book-modal.component.css'],
 })
 export class BookModalComponent {
-  @ViewChild('title') titleInputRef: ElementRef;
-  @ViewChild('author') authorInputRef: ElementRef;
-  @ViewChild('pages') pagesInputRef: ElementRef;
-  @ViewChild('isFav') isFavInputRef: ElementRef;
-  @ViewChild('isReading') isReadingInputRef: ElementRef;
-  @ViewChild('isLoaned') isLoanedInputRef: ElementRef;
+  bookForm: FormGroup;
 
   constructor(
     private booksService: BooksService,
-    private modalService: ModalService
-  ) {}
+    private modalService: ModalService,
+    private fb: FormBuilder
+  ) {
+    this.bookForm = this.fb.group({
+      title: ['', [Validators.required, Validators.pattern(/^\S*$/)]],
+      author: [null],
+      pages: [1, Validators.required],
+      isFav: [false],
+      isReading: [false],
+      isLoaned: [false],
+    });
+  }
 
   onAddBook() {
-    const titleInput = this.titleInputRef.nativeElement.value;
-    const authorInput = this.authorInputRef.nativeElement.value;
-    const pagesInput = parseInt(this.pagesInputRef.nativeElement.value);
-    const isFavInput = this.isFavInputRef.nativeElement.checked;
-    const isReadingInput = this.isReadingInputRef.nativeElement.checked;
-    const isLoanedInput = this.isLoanedInputRef.nativeElement.checked;
-
     const book = new Book(
-      titleInput,
-      authorInput,
-      pagesInput,
-      isFavInput,
-      isLoanedInput,
-      isReadingInput
+      this.bookForm.value.title,
+      this.bookForm.value.author,
+      this.bookForm.value.pages,
+      this.bookForm.value.isFav,
+      this.bookForm.value.isLoaned,
+      this.bookForm.value.isReading
     );
 
-    this.booksService.addBook(book);
-    this.modalService.toggleModal();
+    if (this.bookForm.valid) {
+      this.booksService.addBook(book);
+      this.modalService.toggleModal();
+    }
   }
 
   onCancel() {
