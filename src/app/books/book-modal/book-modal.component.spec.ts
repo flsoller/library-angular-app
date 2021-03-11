@@ -1,6 +1,13 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { of } from 'rxjs';
+
 import { BooksService } from 'src/app/shared/books.service';
 import { ModalService } from 'src/app/shared/modal.service';
 import { Book } from '../book.model';
@@ -23,7 +30,11 @@ describe('BookModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BookModalComponent],
+      imports: [ReactiveFormsModule],
       providers: [
+        FormBuilder,
+        Validators,
+        FormsModule,
         { provide: BooksService, useValue: booksServiceMock },
         { provide: ModalService, useValue: modalServiceMock },
       ],
@@ -54,13 +65,21 @@ describe('BookModalComponent', () => {
   it('should call books service addBook method and toggle modal', () => {
     const bookServiceSpy = jest.spyOn(booksServiceMock, 'addBook');
     const modalServiceSpy = jest.spyOn(modalServiceMock, 'toggleModal');
+
+    component.bookForm.controls['title'].setValue('Title');
+    component.bookForm.controls['author'].setValue('Author');
+    component.bookForm.controls['pages'].setValue(100);
+    component.bookForm.controls['isFav'].setValue(true);
+    component.bookForm.controls['isLoaned'].setValue(true);
+    component.bookForm.controls['isReading'].setValue(false);
+
     const book = new Book(
-      (component.titleInputRef.nativeElement.value = 'Title'),
-      (component.authorInputRef.nativeElement.value = 'Author'),
-      (component.pagesInputRef.nativeElement.value = 100),
-      (component.isFavInputRef.nativeElement.checked = true),
-      (component.isLoanedInputRef.nativeElement.checked = false),
-      (component.isReadingInputRef.nativeElement.checked = true)
+      component.bookForm.value.title,
+      component.bookForm.value.author,
+      component.bookForm.value.pages,
+      component.bookForm.value.isFav,
+      component.bookForm.value.isLoaned,
+      component.bookForm.value.isReading
     );
 
     component.onAddBook();
@@ -68,6 +87,19 @@ describe('BookModalComponent', () => {
     expect(bookServiceSpy).toHaveBeenCalledTimes(1);
     expect(bookServiceSpy).toHaveBeenCalledWith(book);
     expect(modalServiceSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not add book with invalid form', () => {
+    const bookServiceSpy = jest.spyOn(booksServiceMock, 'addBook');
+    const modalServiceSpy = jest.spyOn(modalServiceMock, 'toggleModal');
+
+    component.bookForm.controls['title'].setValue('');
+    component.bookForm.controls['pages'].setValue('');
+
+    component.onAddBook();
+
+    expect(bookServiceSpy).not.toHaveBeenCalled();
+    expect(modalServiceSpy).not.toHaveBeenCalled();
   });
 
   it('should call modal service toggle method on cancel', () => {
