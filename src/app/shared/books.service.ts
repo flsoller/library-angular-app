@@ -1,27 +1,29 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Book } from '../books/book.model';
 import { FilterService } from './filter.service';
+import { StorageService } from './storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class BooksService {
   libraryChanged = new EventEmitter<Book[]>();
 
-  constructor(private filterService: FilterService) {}
+  constructor(
+    private filterService: FilterService,
+    private storageService: StorageService
+  ) {}
 
-  private books: Book[] = [
-    new Book('Some Title 1', 'Some Author 1', 100, true, false, false),
-    new Book('Some Title 2', 'Some Author 2', 200, false, true, false),
-    new Book('Some Title 3', 'Some Author 3', 300, false, false, true),
-  ];
+  private books: Book[] = [];
 
   private filteredBooks: Book[] = [];
 
   getBooks() {
+    this.books = this.storageService.getFromLocalStorage();
     return [...this.books];
   }
 
   addBook(newBook: Book) {
     this.books.push(newBook);
+    this.storageService.saveToLocalStorage(this.books);
     this.libraryChanged.emit([...this.books]);
   }
 
@@ -29,6 +31,7 @@ export class BooksService {
     this.books = this.books.filter((book) => {
       return book.title === title ? null : book;
     });
+    this.storageService.saveToLocalStorage(this.books);
     this.libraryChanged.emit([...this.books]);
   }
 
