@@ -19,8 +19,8 @@ export class BookModalComponent {
     private fb: FormBuilder
   ) {
     this.bookForm = this.fb.group({
-      title: ['', [Validators.required, Validators.pattern(/^\S*$/)]],
-      author: [null],
+      title: ['', Validators.required],
+      author: [''],
       pages: [1, Validators.required],
       isFav: [false],
       isReading: [false],
