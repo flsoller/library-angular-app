@@ -1,19 +1,17 @@
 import { BooksService } from './books.service';
 import { Book } from '../books/book.model';
 import { FilterService } from './filter.service';
+import { StorageService } from './storage.service';
 
 describe('BooksService', () => {
   let service: BooksService;
   let filter: FilterService;
+  let storage: StorageService;
 
   beforeEach(() => {
     filter = new FilterService();
-    service = new BooksService(filter);
-  });
-
-  it('Returns array of books', () => {
-    expect(service.getBooks().length).toBe(3);
-    expect(service.getBooks()[1].author).not.toBe('Some Author 1');
+    storage = new StorageService();
+    service = new BooksService(filter, storage);
   });
 
   it('Adds a new book to library', () => {
@@ -25,14 +23,34 @@ describe('BooksService', () => {
       false,
       false
     );
+    const storageSpy = jest.spyOn(storage, 'saveToLocalStorage');
+
     service.addBook(book);
-    expect(service.getBooks().length).toBe(4);
-    expect(service.getBooks()[3].author).toBe('Some Author 4');
+
+    expect(storageSpy).toHaveBeenCalled();
+    expect(service.getBooks().length).toBe(1);
+    expect(service.getBooks()[0].author).toBe('Some Author 4');
+
+    storageSpy.mockRestore();
+  });
+
+  it('Returns array of books', () => {
+    const storageSpy = jest.spyOn(storage, 'getFromLocalStorage');
+
+    service.getBooks();
+
+    expect(storageSpy).toHaveBeenCalled();
+    expect(service.getBooks().length).toBe(1);
+
+    storageSpy.mockRestore();
   });
 
   it('Removes book from library', () => {
-    service.removeBook('Some Title 1');
-    expect(service.getBooks().length).toBe(2);
-    expect(service.getBooks()[0].title).not.toBe('Some Title 1');
+    const storageSpy = jest.spyOn(storage, 'saveToLocalStorage');
+
+    service.removeBook('Some Title 4');
+
+    expect(storageSpy).toHaveBeenCalled();
+    expect(service.getBooks().length).toBe(0);
   });
 });
