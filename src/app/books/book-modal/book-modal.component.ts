@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 import { BooksService } from 'src/app/shared/books.service';
 import { ModalService } from 'src/app/shared/modal.service';
@@ -19,7 +24,7 @@ export class BookModalComponent {
     private fb: FormBuilder
   ) {
     this.bookForm = this.fb.group({
-      title: ['', Validators.required],
+      title: ['', [Validators.required, this.emptyString.bind(this)]],
       author: [''],
       pages: [1, Validators.required],
       isFav: [false],
@@ -46,5 +51,12 @@ export class BookModalComponent {
 
   onCancel() {
     this.modalService.toggleModal();
+  }
+
+  emptyString(control: FormControl): { [key: string]: boolean } {
+    if ((control.value || '').trim().length === 0) {
+      return { isEmptyString: true };
+    }
+    return null;
   }
 }
