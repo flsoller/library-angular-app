@@ -107,4 +107,17 @@ describe('BookModalComponent', () => {
     component.onCancel();
     expect(modalServiceSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('should not add book when title is only empty string', () => {
+    const bookServiceSpy = jest.spyOn(booksServiceMock, 'addBook');
+    const modalServiceSpy = jest.spyOn(modalServiceMock, 'toggleModal');
+
+    //Set empty string
+    component.bookForm.controls['title'].setValue('    ');
+
+    component.onAddBook();
+
+    expect(bookServiceSpy).not.toHaveBeenCalled();
+    expect(modalServiceSpy).not.toHaveBeenCalled();
+  });
 });
