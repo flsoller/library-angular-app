@@ -17,7 +17,7 @@ The functionality will be equal, though the UI may look different.
 - [x] Display book cards from array
 - [x] Open library by view (all, loaned, reading status, favourites)
 - [x] Add functionality for deleting books
-- [ ] Add functionality for localStorage
+- [x] Add functionality for localStorage
 - [ ] Add ability to change read/fav/loaned status after creation
 
 ## Learning outcomes (compared to React):
