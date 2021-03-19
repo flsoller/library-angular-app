@@ -7,11 +7,17 @@ describe('BooksService', () => {
   let service: BooksService;
   let filter: FilterService;
   let storage: StorageService;
+  let emitterSpy: jest.SpyInstance;
 
   beforeEach(() => {
     filter = new FilterService();
     storage = new StorageService();
     service = new BooksService(filter, storage);
+    emitterSpy = jest.spyOn(service.libraryChanged, 'emit');
+  });
+
+  afterEach(() => {
+    emitterSpy.mockRestore();
   });
 
   it('Adds a new book to library', () => {
@@ -30,6 +36,7 @@ describe('BooksService', () => {
     expect(storageSpy).toHaveBeenCalled();
     expect(service.getBooks().length).toBe(1);
     expect(service.getBooks()[0].author).toBe('Some Author 4');
+    expect(emitterSpy).toHaveBeenCalled();
 
     storageSpy.mockRestore();
   });
@@ -52,5 +59,33 @@ describe('BooksService', () => {
 
     expect(storageSpy).toHaveBeenCalled();
     expect(service.getBooks().length).toBe(0);
+    expect(emitterSpy).toHaveBeenCalled();
+  });
+
+  it('Calls filter service method isReading', () => {
+    const filterSpy = jest.spyOn(filter, 'viewIsReading');
+
+    service.getIsReading();
+
+    expect(filterSpy).toHaveBeenCalled();
+    expect(emitterSpy).toHaveBeenCalled();
+  });
+
+  it('Calls filter service method isLoaned', () => {
+    const filterSpy = jest.spyOn(filter, 'viewLoaned');
+
+    service.getIsLoaned();
+
+    expect(filterSpy).toHaveBeenCalled();
+    expect(emitterSpy).toHaveBeenCalled();
+  });
+
+  it('Calls filter service method viewFavourite', () => {
+    const filterSpy = jest.spyOn(filter, 'viewFavourite');
+
+    service.getIsFav();
+
+    expect(filterSpy).toHaveBeenCalled();
+    expect(emitterSpy).toHaveBeenCalled();
   });
 });
