@@ -1,16 +1,34 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { BooksService } from 'src/app/shared/books.service';
+import { ModalService } from 'src/app/shared/modal.service';
 
 import { MenuBarComponent } from './menu-bar.component';
 
 describe('MenuBarComponent', () => {
   let component: MenuBarComponent;
   let fixture: ComponentFixture<MenuBarComponent>;
+  let serviceSpy: jest.SpyInstance;
+
+  const booksServiceMock = {
+    getAll: jest.fn().mockImplementation(() => of({})),
+    getIsReading: jest.fn().mockImplementation(() => of({})),
+    getIsFav: jest.fn().mockImplementation(() => of({})),
+    getIsLoaned: jest.fn().mockImplementation(() => of({})),
+  };
+
+  const modalServiceMock = {
+    toggleModal: jest.fn().mockImplementation(() => of({})),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MenuBarComponent ]
-    })
-    .compileComponents();
+      declarations: [MenuBarComponent],
+      providers: [
+        { provide: BooksService, useValue: booksServiceMock },
+        { provide: ModalService, useValue: modalServiceMock },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -21,5 +39,49 @@ describe('MenuBarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call modal service toggle method', () => {
+    const modalSpy = jest.spyOn(modalServiceMock, 'toggleModal');
+
+    component.onModalOpen();
+
+    expect(modalSpy).toHaveBeenCalled();
+  });
+
+  it('should call booksService method', () => {
+    serviceSpy = jest.spyOn(booksServiceMock, 'getAll');
+
+    component.onGetAll();
+
+    expect(serviceSpy).toHaveBeenCalled();
+    serviceSpy.mockRestore();
+  });
+
+  it('should call booksService method', () => {
+    serviceSpy = jest.spyOn(booksServiceMock, 'getIsReading');
+
+    component.onGetIsReading();
+
+    expect(serviceSpy).toHaveBeenCalled();
+    serviceSpy.mockRestore();
+  });
+
+  it('should call booksService method', () => {
+    serviceSpy = jest.spyOn(booksServiceMock, 'getIsFav');
+
+    component.onGetIsFav();
+
+    expect(serviceSpy).toHaveBeenCalled();
+    serviceSpy.mockRestore();
+  });
+
+  it('should call booksService method', () => {
+    serviceSpy = jest.spyOn(booksServiceMock, 'getIsLoaned');
+
+    component.onGetIsLoaned();
+
+    expect(serviceSpy).toHaveBeenCalled();
+    serviceSpy.mockRestore();
   });
 });
