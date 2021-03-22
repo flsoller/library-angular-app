@@ -9,6 +9,7 @@ describe('MenuBarComponent', () => {
   let component: MenuBarComponent;
   let fixture: ComponentFixture<MenuBarComponent>;
   let serviceSpy: jest.SpyInstance;
+  let dropdownSpy: jest.SpyInstance;
 
   const booksServiceMock = {
     getAll: jest.fn().mockImplementation(() => of({})),
@@ -35,6 +36,8 @@ describe('MenuBarComponent', () => {
     fixture = TestBed.createComponent(MenuBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    dropdownSpy = jest.spyOn(component, 'onMenuSortToggle');
   });
 
   it('should create', () => {
@@ -55,6 +58,7 @@ describe('MenuBarComponent', () => {
     component.onGetAll();
 
     expect(serviceSpy).toHaveBeenCalled();
+    expect(dropdownSpy).toHaveBeenCalledTimes(1);
     serviceSpy.mockRestore();
   });
 
@@ -64,6 +68,7 @@ describe('MenuBarComponent', () => {
     component.onGetIsReading();
 
     expect(serviceSpy).toHaveBeenCalled();
+    expect(dropdownSpy).toHaveBeenCalledTimes(1);
     serviceSpy.mockRestore();
   });
 
@@ -73,6 +78,7 @@ describe('MenuBarComponent', () => {
     component.onGetIsFav();
 
     expect(serviceSpy).toHaveBeenCalled();
+    expect(dropdownSpy).toHaveBeenCalledTimes(1);
     serviceSpy.mockRestore();
   });
 
@@ -82,6 +88,16 @@ describe('MenuBarComponent', () => {
     component.onGetIsLoaned();
 
     expect(serviceSpy).toHaveBeenCalled();
+    expect(dropdownSpy).toHaveBeenCalledTimes(1);
+
     serviceSpy.mockRestore();
+  });
+
+  it('should toggle dropdown menu', () => {
+    component.menuSort = false;
+    component.onMenuSortToggle();
+
+    expect(dropdownSpy).toHaveBeenCalledTimes(1);
+    expect(component.menuSort).toBeTruthy();
   });
 });
