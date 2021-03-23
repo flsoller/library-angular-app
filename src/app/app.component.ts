@@ -10,7 +10,7 @@ import { ModalService } from './shared/modal.service';
 })
 export class AppComponent implements OnInit {
   books: Book[] = [];
-  showModal: boolean = true;
+  showModal: boolean = false;
 
   constructor(
     private booksService: BooksService,
