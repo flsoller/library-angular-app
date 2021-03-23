@@ -1,20 +1,59 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { Book } from './books/book.model';
 import { BooksService } from './shared/books.service';
+import { ModalService } from './shared/modal.service';
 
 describe('AppComponent', () => {
+  const mockBook = new Book(
+    'I like testing',
+    'Important Author',
+    100,
+    false,
+    false,
+    false
+  );
+
+  const booksServiceMock = {
+    getBooks: jest.fn().mockImplementation(() => [mockBook]),
+    libraryChanged: new EventEmitter<Book[]>(),
+  };
+
+  const modalServiceMock = {
+    getModalState: jest.fn().mockImplementation(() => true),
+    modalVisChanged: new EventEmitter(),
+  };
+
+  let app: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
-      providers: [BooksService],
+      providers: [
+        { provide: BooksService, useValue: booksServiceMock },
+        { provide: ModalService, useValue: modalServiceMock },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   });
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     expect(app).toBeTruthy();
+  });
+
+  it('should call booksService and set books to response', () => {
+    expect(app.books).toStrictEqual([mockBook]);
+  });
+
+  it('should call modalService and set showModal to response', () => {
+    expect(app.showModal).toBe(true);
   });
 });
