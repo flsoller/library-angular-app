@@ -55,10 +55,28 @@ describe('BooksService', () => {
   it('Removes book from library', () => {
     const storageSpy = jest.spyOn(storage, 'saveToLocalStorage');
 
+    let book: Book = new Book(
+      'Some Title 4',
+      'Some Author 4',
+      400,
+      false,
+      false,
+      false
+    );
+
+    service.addBook(book);
+
+    // Does not remove any books
+    service.removeBook('Does not exist');
+    console.log(service.getBooks());
+    expect(service.getBooks().length).toBe(1);
+
+    // Does remove book
     service.removeBook('Some Title 4');
+    expect(service.getBooks().length).toBe(0);
+    console.log(service.getBooks());
 
     expect(storageSpy).toHaveBeenCalled();
-    expect(service.getBooks().length).toBe(0);
     expect(emitterSpy).toHaveBeenCalled();
   });
 
@@ -86,6 +104,11 @@ describe('BooksService', () => {
     service.getIsFav();
 
     expect(filterSpy).toHaveBeenCalled();
+    expect(emitterSpy).toHaveBeenCalled();
+  });
+
+  it('Emits change on getAll method call', () => {
+    service.getAll();
     expect(emitterSpy).toHaveBeenCalled();
   });
 });
