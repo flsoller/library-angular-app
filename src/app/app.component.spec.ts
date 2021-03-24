@@ -15,6 +15,15 @@ describe('AppComponent', () => {
     false
   );
 
+  const mockEmitBook = new Book(
+    'I like testing even more',
+    'More Important Author',
+    200,
+    true,
+    true,
+    false
+  );
+
   const booksServiceMock = {
     getBooks: jest.fn().mockImplementation(() => [mockBook]),
     libraryChanged: new EventEmitter<Book[]>(),
@@ -22,7 +31,7 @@ describe('AppComponent', () => {
 
   const modalServiceMock = {
     getModalState: jest.fn().mockImplementation(() => true),
-    modalVisChanged: new EventEmitter(),
+    modalVisChanged: new EventEmitter<boolean>(),
   };
 
   let app: AppComponent;
@@ -51,9 +60,15 @@ describe('AppComponent', () => {
 
   it('should call booksService and set books to response', () => {
     expect(app.books).toStrictEqual([mockBook]);
+
+    booksServiceMock.libraryChanged.emit([mockEmitBook]);
+    expect(app.books).toStrictEqual([mockEmitBook]);
   });
 
   it('should call modalService and set showModal to response', () => {
     expect(app.showModal).toBe(true);
+
+    modalServiceMock.modalVisChanged.emit(false);
+    expect(app.showModal).toBe(false);
   });
 });
