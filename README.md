@@ -8,6 +8,10 @@ The functionality will be equal, though the UI may look different.
 
 <img src="./src/assets/BookLibrary_Angular.png" width='500'>
 
+## Test Coverage:
+
+<img src="./src/assets/test_coverage.png" width='500'>
+
 ## Targets:
 
 - [x] Define containers and components
@@ -18,6 +22,7 @@ The functionality will be equal, though the UI may look different.
 - [x] Open library by view (all, loaned, reading status, favourites)
 - [x] Add functionality for deleting books
 - [x] Add functionality for localStorage
+- [x] Achieve 100% test coverage
 - [ ] Add ability to change read/fav/loaned status after creation
 
 ## Learning outcomes (compared to React):
