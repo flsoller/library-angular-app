@@ -26,4 +26,38 @@ describe('Storage Service', () => {
       JSON.stringify(mockLibrary)
     );
   });
+
+  it("Should catch error on localStorage 'getItem' failure", () => {
+    jest
+      .spyOn(window.localStorage.__proto__, 'getItem')
+      .mockImplementation(() => {
+        throw new Error('Scary_getItem_Error');
+      });
+
+    jest.spyOn(console, 'error').mockImplementation();
+
+    let mockLibrary = [];
+
+    service.getFromLocalStorage();
+
+    expect(console.error).toHaveBeenCalledWith(Error('Scary_getItem_Error'));
+    jest.restoreAllMocks();
+  });
+
+  it("Should catch error on localStorage 'setItem' failure", () => {
+    jest
+      .spyOn(window.localStorage.__proto__, 'setItem')
+      .mockImplementation(() => {
+        throw new Error('Scary_setItem_Error');
+      });
+
+    jest.spyOn(console, 'error').mockImplementation();
+
+    let mockLibrary = [];
+
+    service.saveToLocalStorage(mockLibrary);
+
+    expect(console.error).toHaveBeenCalledWith(Error('Scary_setItem_Error'));
+    jest.restoreAllMocks();
+  });
 });

@@ -11,7 +11,7 @@ export class StorageService {
         ? JSON.parse(localStorage.getItem(this.STORAGE_STRING))
         : [];
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -20,7 +20,7 @@ export class StorageService {
       const serializedLibrary = JSON.stringify(library);
       localStorage.setItem(this.STORAGE_STRING, serializedLibrary);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 }
