@@ -98,6 +98,7 @@ describe('BookModalComponent', () => {
 
     component.onAddBook();
 
+    expect(component.bookForm.valid).toBeFalsy();
     expect(bookServiceSpy).not.toHaveBeenCalled();
     expect(modalServiceSpy).not.toHaveBeenCalled();
   });
@@ -117,6 +118,7 @@ describe('BookModalComponent', () => {
 
     component.onAddBook();
 
+    expect(component.bookForm.controls['title'].valid).toBeFalsy();
     expect(bookServiceSpy).not.toHaveBeenCalled();
     expect(modalServiceSpy).not.toHaveBeenCalled();
   });
