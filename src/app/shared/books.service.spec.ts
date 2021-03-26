@@ -68,13 +68,11 @@ describe('BooksService', () => {
 
     // Does not remove any books
     service.removeBook('Does not exist');
-    console.log(service.getBooks());
     expect(service.getBooks().length).toBe(1);
 
     // Does remove book
     service.removeBook('Some Title 4');
     expect(service.getBooks().length).toBe(0);
-    console.log(service.getBooks());
 
     expect(storageSpy).toHaveBeenCalled();
     expect(emitterSpy).toHaveBeenCalled();
