@@ -1,4 +1,4 @@
-<div class="rounded overflow-hidden shadow-lg w-screen h-56 sm:w-60 sm:h-80">
+<div class="rounded overflow-hidden shadow-lg w-screen sm:w-60 sm:h-80">
   <div
     class="rounded-b-2xl bg-indigo-400 w-full h-14 flex items-center pl-5 text-lg font-bold text-white leading-tight"
   >
@@ -15,21 +15,25 @@
   <div
     class="flex m-3 sm:m-6 sm:leading-loose text-sm font-extralight justify-center text-indigo-900"
   >
-    <div class="flex flex-col text-right">
-      <p class="sm:mt-3">Currently Reading:</p>
-      <p class="sm:mt-3">Favourite:</p>
-      <p class="sm:mt-3">Loaned Out:</p>
+    <div class="flex flex-col text-right space-y-3">
+      <p>Currently Reading:</p>
+      <p>Favourite:</p>
+      <p>Loaned Out:</p>
     </div>
     <div class="flex flex-col ml-5 font-normal">
-      <div *ngIf="!isEdit">
-        <p class="sm:mt-3">{{ book.isReading ? "Yes" : "No" }}</p>
-        <p class="sm:mt-3">{{ book.isFav ? "Yes" : "No" }}</p>
-        <p class="sm:mt-3">{{ book.isLoaned ? "Yes" : "No" }}</p>
+      <div *ngIf="!isEdit" class="space-y-3">
+        <p>{{ book.isReading ? "Yes" : "No" }}</p>
+        <p>{{ book.isFav ? "Yes" : "No" }}</p>
+        <p>{{ book.isLoaned ? "Yes" : "No" }}</p>
       </div>
-      <div *ngIf="isEdit"></div>
+      <div *ngIf="isEdit" class="flex flex-col space-y-2 sm:space-y-4">
+        <mat-slide-toggle [color]="color"></mat-slide-toggle>
+        <mat-slide-toggle [color]="color"></mat-slide-toggle>
+        <mat-slide-toggle [color]="color"></mat-slide-toggle>
+      </div>
     </div>
   </div>
-  <div class="flex px-2 h-3 items-center">
+  <div class="flex pl-4 pb-2 items-center">
     <button
       (click)="onEditBook()"
       type="button"
