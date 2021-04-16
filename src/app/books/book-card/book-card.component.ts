@@ -9,22 +9,39 @@ import { Book } from '../book.model';
   templateUrl: './book-card.component.html',
   styleUrls: ['./book-card.component.css'],
 })
-export class BookCardComponent {
+export class BookCardComponent implements OnInit {
   @Input() book: Book;
+
+  editIsReading: boolean;
+  editIsFav: boolean;
+  editIsLoaned: boolean;
+
   isEdit = true;
+
+  // Define color for material component (slider)
   color: ThemePalette = 'primary';
 
   constructor(private booksService: BooksService) {}
+
+  ngOnInit() {
+    this.editIsReading = this.book.isReading;
+    this.editIsFav = this.book.isFav;
+    this.editIsLoaned = this.book.isLoaned;
+  }
 
   onDeleteBook(title: string) {
     this.booksService.removeBook(title);
   }
 
   onEditBook() {
-    this.isEdit = !this.isEdit;
-
     if (this.isEdit) {
-      this.booksService.updateBook(this.book.title);
+      this.booksService.updateBook(
+        this.book.title,
+        this.editIsReading,
+        this.editIsFav,
+        this.editIsLoaned
+      );
     }
+    this.isEdit = !this.isEdit;
   }
 }

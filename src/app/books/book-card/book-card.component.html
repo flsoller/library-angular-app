@@ -30,14 +30,17 @@
         <mat-slide-toggle
           [color]="color"
           [checked]="book.isReading"
+          (change)="editIsReading = !editIsReading"
         ></mat-slide-toggle>
         <mat-slide-toggle
           [color]="color"
           [checked]="book.isFav"
+          (change)="editIsFav = !editIsFav"
         ></mat-slide-toggle>
         <mat-slide-toggle
           [color]="color"
           [checked]="book.isLoaned"
+          (change)="editIsLoaned = !editIsLoaned"
         ></mat-slide-toggle>
       </div>
     </div>
