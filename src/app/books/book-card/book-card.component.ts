@@ -16,7 +16,7 @@ export class BookCardComponent implements OnInit {
   editIsFav: boolean;
   editIsLoaned: boolean;
 
-  isEdit = true;
+  isEdit = false;
 
   // Define color for material component (slider)
   color: ThemePalette = 'primary';
