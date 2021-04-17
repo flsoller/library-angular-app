@@ -35,6 +35,24 @@ export class BooksService {
     this.libraryChanged.emit([...this.books]);
   }
 
+  updateBook(
+    title: string,
+    isReading: boolean,
+    isFav: boolean,
+    isLoaned: boolean
+  ) {
+    this.books = this.books.filter((book) => {
+      if (book.title === title) {
+        book.isReading = isReading;
+        book.isFav = isFav;
+        book.isLoaned = isLoaned;
+      }
+      return book;
+    });
+    this.storageService.saveToLocalStorage(this.books);
+    this.libraryChanged.emit([...this.books]);
+  }
+
   getIsReading() {
     this.filteredBooks = this.filterService.viewIsReading(this.books);
     this.libraryChanged.emit([...this.filteredBooks]);
