@@ -7,6 +7,15 @@ const mockBookLibrary = [
   new Book(' Title', 'Some Author', 100, false, false, false),
 ];
 
+const mockBook = new Book(
+  'New Book Title',
+  'New Book Author',
+  200,
+  false,
+  false,
+  false
+);
+
 describe('BooksService', () => {
   let service: BooksService;
   let filter: FilterService;
@@ -28,22 +37,14 @@ describe('BooksService', () => {
   });
 
   it('Adds a new book to library', () => {
-    let book: Book = new Book(
-      'New Book Title',
-      'New Book Author',
-      200,
-      false,
-      false,
-      false
-    );
     const storageSpy = jest.spyOn(storage, 'saveToLocalStorage');
 
-    service.addBook(book);
+    service.addBook(mockBook);
 
-    expect(storageSpy).toHaveBeenCalled();
+    expect(storageSpy).toHaveBeenCalledWith(service['books']);
     expect(service.getBooks().length).toBe(2);
-    expect(service.getBooks()[1].author).toBe('New Book Author');
-    expect(emitterSpy).toHaveBeenCalled();
+    expect(service.getBooks()[1]).toEqual(mockBook);
+    expect(emitterSpy).toHaveBeenCalledWith(service['books']);
 
     storageSpy.mockRestore();
   });
@@ -64,7 +65,8 @@ describe('BooksService', () => {
 
     service.updateBook('New Book Title', true, true, true);
 
-    expect(storageSpy).toBeCalled();
+    expect(storageSpy).toHaveBeenCalledWith(service['books']);
+    expect(emitterSpy).toHaveBeenCalledWith(service['books']);
     expect(service.getBooks()[1].isFav).toBe(true);
     expect(service.getBooks()[1].isLoaned).toBe(true);
     expect(service.getBooks()[1].isReading).toBe(true);
@@ -81,8 +83,8 @@ describe('BooksService', () => {
     service.removeBook('New Book Title');
     expect(service.getBooks().length).toBe(1);
 
-    expect(storageSpy).toHaveBeenCalled();
-    expect(emitterSpy).toHaveBeenCalled();
+    expect(storageSpy).toHaveBeenCalledWith(service['books']);
+    expect(emitterSpy).toHaveBeenCalledWith(service['books']);
   });
 
   it('Calls filter service method isReading', () => {
@@ -90,8 +92,8 @@ describe('BooksService', () => {
 
     service.getIsReading();
 
-    expect(filterSpy).toHaveBeenCalled();
-    expect(emitterSpy).toHaveBeenCalled();
+    expect(filterSpy).toHaveBeenCalledWith(service['books']);
+    expect(emitterSpy).toHaveBeenCalledWith(service['filteredBooks']);
   });
 
   it('Calls filter service method isLoaned', () => {
@@ -99,8 +101,8 @@ describe('BooksService', () => {
 
     service.getIsLoaned();
 
-    expect(filterSpy).toHaveBeenCalled();
-    expect(emitterSpy).toHaveBeenCalled();
+    expect(filterSpy).toHaveBeenCalledWith(service['books']);
+    expect(emitterSpy).toHaveBeenCalledWith(service['filteredBooks']);
   });
 
   it('Calls filter service method viewFavourite', () => {
@@ -108,12 +110,12 @@ describe('BooksService', () => {
 
     service.getIsFav();
 
-    expect(filterSpy).toHaveBeenCalled();
-    expect(emitterSpy).toHaveBeenCalled();
+    expect(filterSpy).toHaveBeenCalledWith(service['books']);
+    expect(emitterSpy).toHaveBeenCalledWith(service['filteredBooks']);
   });
 
   it('Emits change on getAll method call', () => {
     service.getAll();
-    expect(emitterSpy).toHaveBeenCalled();
+    expect(emitterSpy).toHaveBeenCalledWith(service['filteredBooks']);
   });
 });
