@@ -11,6 +11,7 @@ describe('BookCardComponent', () => {
 
   const booksServiceMock = {
     removeBook: jest.fn().mockImplementation(() => of({})),
+    updateBook: jest.fn().mockImplementation(() => of({})),
   };
 
   beforeEach(async () => {
@@ -49,5 +50,27 @@ describe('BookCardComponent', () => {
     component.onDeleteBook(component.book.title);
     expect(serviceSpy).toHaveBeenCalledTimes(1);
     expect(serviceSpy).toHaveBeenCalledWith(component.book.title);
+  });
+
+  it('should set component to edit mode', () => {
+    component.isEdit = false;
+    component.onEditBook();
+
+    expect(component.isEdit).toBe(true);
+  });
+
+  it('should call booksService update method when in edit mode', () => {
+    const serviceSpy = jest.spyOn(booksServiceMock, 'updateBook');
+    component.isEdit = true;
+    component.onEditBook();
+
+    expect(serviceSpy).toBeCalledWith(
+      component.book.title,
+      component.book.isFav,
+      component.book.isLoaned,
+      component.book.isReading
+    );
+
+    expect(component.isEdit).toBe(false);
   });
 });
