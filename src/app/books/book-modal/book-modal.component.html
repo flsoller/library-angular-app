@@ -1,5 +1,9 @@
-<div class="absolute w-screen h-4/5 flex justify-center">
-  <div class="rounded-lg w-80 h-96 shadow-2xl mx-auto mt-6">
+<div
+  class="absolute w-screen flex justify-center content-center items-center sm:mt-8"
+>
+  <div
+    class="sm:rounded-lg p-2 w-full h-full sm:w-80 sm:shadow-2xl sm:border-indigo-900 sm:border-2 sm:border-opacity-50"
+  >
     <form [formGroup]="bookForm" (ngSubmit)="onAddBook()">
       <div class="px-4 py-5 bg-white sm:p-6">
         <div class="grid grid-cols-6 gap-3">
