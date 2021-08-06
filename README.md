@@ -4,6 +4,13 @@ In order to compare the workflows of the two frontend technologies, this project
 
 The functionality will be equal, though the UI may look different.
 
+## Installation
+
+1. Clone this repo
+2. Run "npm -i" from the root directory
+3. Run "npm start" or "ng serve" if you have Angular CLI installed.
+4. Visit http://localhost:4200/
+
 ## Preview:
 
 <img src="./src/assets/BookLibrary_Angular.png" width='500'>
@@ -23,7 +30,7 @@ The functionality will be equal, though the UI may look different.
 - [x] Add functionality for deleting books
 - [x] Add functionality for localStorage
 - [x] Achieve 100% test coverage
-- [ ] Add ability to change read/fav/loaned status after creation
+- [x] Add ability to change read/fav/loaned status after creation
 
 ## Learning outcomes (compared to React):
 
